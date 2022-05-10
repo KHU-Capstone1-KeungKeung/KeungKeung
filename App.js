@@ -475,6 +475,44 @@ const App = () => {
     viewer.signalingClient.open();
   }
 
+  const stopViewer = async () => {
+    console.log('[VIEWER] Stopping viewer connection');
+    if (viewer.signalingClient) {
+      viewer.signalingClient.close();
+      viewer.signalingClient = null;
+    }
+
+    if (viewer.peerConnection) {
+      viewer.peerConnection.close();
+      viewer.peerConnection = null;
+    }
+
+    if (viewer.localStream) {
+      viewer.localStream.getTracks().forEach(track => track.stop());
+      viewer.localStream = null;
+    }
+
+    if (viewer.remoteStream) {
+      viewer.remoteStream.getTracks().forEach(track => track.stop());
+      viewer.remoteStream = null;
+    }
+
+    if (viewer.peerConnectionStatsInterval) {
+      clearInterval(viewer.peerConnectionStatsInterval);
+      viewer.peerConnectionStatsInterval = null;
+    }
+
+    if (viewer.localView) {
+      viewer.localView?.srcObject = null;
+      setLocalView('');
+    }
+
+    if (viewer.remoteView) {
+      viewer.remoteView?.srcObject = null;
+      setRemoteView('');
+    }
+  }
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
