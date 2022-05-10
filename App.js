@@ -43,11 +43,20 @@ const App = () => {
     remoteView: null,
     peerConnectionStatsInterval: null,
   };
+  const viewer = {
+    signalingClient: null,
+    peerConnectionByClientId: {},
+    localStream: null,
+    remoteStreams: [],
+    localView: null,
+    remoteView: null,
+    peerConnectionStatsInterval: null,
+  };
 
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
 
-  function onStatsReport(report) {
+  const onStatsReport = (report) => {
     // TODO: Publish stats
   }
 
@@ -295,8 +304,8 @@ const App = () => {
           }}>
           <View>
             <Button title="Start Master" onPress={startMaster} />
-            <Button title="Start Viewer" onPress={() => {}} />
-            <Button title="Craete Channel" onPress={() => {}} />
+            <Button title="Start Viewer" onPress={startViewer} />
+            <Button title="Craete Channel" onPress={createSignalingChannel} />
           </View>
           {localView !== '' && (
             <View>
@@ -318,12 +327,14 @@ const App = () => {
                     zOrder={20}
                     objectFit={'cover'}
                     mirror={false}
-                    streamURL={localView.toURL()}
+                    streamURL={remoteView.toURL()}
                 />
               </View>
           )}
-
-          <Button title="Stop Viewer" onPress={stopMaster} />
+          <View>
+            <Button title="Stop Master" onPress={stopMaster} />
+            <Button title="Stop Viewer" onPress={stopViewer} />
+          </View>
 
           {/* <Master localView={localView.toURL()} /> */}
         </View>
