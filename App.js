@@ -61,6 +61,13 @@ const App = () => {
     // TODO: Publish stats
   }
 
+  const getRandomClientId = () => {
+    return Math.random()
+        .toString(36)
+        .substring(2)
+        .toUpperCase();
+  }
+
   const startMaster = async () => {
     // master.localView = localView;
     // master.remoteView = remoteView;
@@ -331,20 +338,24 @@ const App = () => {
           },
         })
         .promise();
-    const endpointsByProtocol = getSignalingChannelEndpointResponse.ResourceEndpointList.reduce((endpoints, endpoint) => {
-      endpoints[endpoint.Protocol] = endpoint.ResourceEndpoint;
-      return endpoints;
-    }, {});
+    const endpointsByProtocol = getSignalingChannelEndpointResponse.ResourceEndpointList.reduce(
+        (endpoints, endpoint) => {
+          endpoints[endpoint.Protocol] = endpoint.ResourceEndpoint;
+          return endpoints;
+          },
+        {}
+        );
     console.log('[VIEWER] Endpoints: ', endpointsByProtocol);
 
-    const kinesisVideoSignalingChannelsClient = new AWS.KinesisVideoSignalingChannels({
-      region: Config.REGION,
-      accessKeyId: Config.ACCESS_KEY_ID,
-      secretAccessKey: Config.SECRET_ACCESS_KEY,
-      sessionToken: null,
-      endpoint: null,
-      correctClockSkew: true,
-    });
+    const kinesisVideoSignalingChannelsClient =
+        new AWS.KinesisVideoSignalingChannels({
+          region: Config.REGION,
+          accessKeyId: Config.ACCESS_KEY_ID,
+          secretAccessKey: Config.SECRET_ACCESS_KEY,
+          sessionToken: null,
+          endpoint: endpointsByProtocol.HTTPS,
+          correctClockSkew: true,
+        });
 
     // Get ICE server configuration
     const getIceServerConfigResponse = await kinesisVideoSignalingChannelsClient
@@ -364,13 +375,13 @@ const App = () => {
           credential: iceServer.Password,
         }),
     );
-    console.log('[MASTER] ICE servers: ', iceServers);
+    console.log('[VIEWER] ICE servers: ', iceServers);
 
     // Create Signaling Client
     viewer.signalingClient = new KVSWebRTC.SignalingClient({
       channelARN,
       channelEndpoint: endpointsByProtocol.WSS,
-      clientId: formValues.clientId,
+      clientId: getRandomClientId(),
       role: KVSWebRTC.Role.VIEWER,
       region: Config.REGION,
       credentials: {
