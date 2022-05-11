@@ -478,10 +478,11 @@ const App = () => {
     });
 
     console.log('[VIEWER] Starting viewer connection');
+    setInfo([...info, '[VIEWER] Starting viewer connection'])
     viewer.signalingClient.open();
   }
 
-  const stopViewer = async () => {
+  const stopViewer = async () =>  {
     console.log('[VIEWER] Stopping viewer connection');
     if (viewer.signalingClient) {
       viewer.signalingClient.close();
@@ -538,7 +539,7 @@ const App = () => {
         .promise();
     const channelARN = describeSignalingChannelResponse.ChannelInfo.ChannelARN;
 
-    info.push(['[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN])
+    setInfo([...info, ['[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN]])
     console.log('[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN);
   }
 
