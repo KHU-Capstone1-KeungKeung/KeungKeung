@@ -55,6 +55,7 @@ const App = () => {
 
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
+  const [info, setInfo] = useState([]);
 
   const onStatsReport = (report) => {
     // TODO: Publish stats
@@ -536,6 +537,8 @@ const App = () => {
         })
         .promise();
     const channelARN = describeSignalingChannelResponse.ChannelInfo.ChannelARN;
+
+    info.push(['[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN])
     console.log('[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN);
   }
 
@@ -581,6 +584,10 @@ const App = () => {
           <View>
             <Button title="Stop Master" onPress={stopMaster} />
             <Button title="Stop Viewer" onPress={stopViewer} />
+          </View>
+
+          <View>
+            {info}
           </View>
 
           {/* <Master localView={localView.toURL()} /> */}
