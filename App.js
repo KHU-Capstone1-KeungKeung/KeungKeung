@@ -61,8 +61,8 @@ const App = () => {
   }
 
   const startMaster = async () => {
-    master.localView = localView;
-    master.remoteView = remoteView;
+    // master.localView = localView;
+    // master.remoteView = remoteView;
 
     // Create KVS client : KVS 클라이언트 생성
     const kinesisVideoClient = new AWS.KinesisVideo({
@@ -166,6 +166,7 @@ const App = () => {
       //   constraints,
       // );
       // localView.srcObject = master.localStream;
+      // master.localView.srcObject = master.localStream;
       setLocalView(master.localStream);
     } catch (e) {
       console.error('[MASTER] Could not find webcam');
@@ -283,18 +284,22 @@ const App = () => {
       master.peerConnectionStatsInterval = null;
     }
 
-    if (master.localView) {
-      master.localView?.srcObject = null;
-    }
+    // if (master.localView) {
+    //   master.localView.srcObject = null;
+    //   setLocalView('');
+    // }
+    //
+    // if (master.remoteView) {
+    //   master.remoteView.srcObject = null;
+    // }
 
-    if (master.remoteView) {
-      master.remoteView?.srcObject = null;
-    }
+    setLocalView('');
+    setRemoteView('');
   }
 
   const startViewer = async () => {
-    viewer.localView = localView;
-    viewer.remoteView = remoteView;
+    // viewer.localView = localView;
+    // viewer.remoteView = remoteView;
 
     // Create KVS client
     const kinesisVideoClient = new AWS.KinesisVideo({
@@ -502,15 +507,16 @@ const App = () => {
       viewer.peerConnectionStatsInterval = null;
     }
 
-    if (viewer.localView) {
-      viewer.localView?.srcObject = null;
-      setLocalView('');
-    }
+    // if (viewer.localView) {
+    //   viewer.localView.srcObject = null;
+    // }
+    //
+    // if (viewer.remoteView) {
+    //   viewer.remoteView.srcObject = null;
+    // }
 
-    if (viewer.remoteView) {
-      viewer.remoteView?.srcObject = null;
-      setRemoteView('');
-    }
+    setLocalView('');
+    setRemoteView('');
   }
 
   const createSignalingChannel = async () => {
