@@ -223,7 +223,7 @@ const App = () => {
       });
 
       // As remote tracks are received, add them to the remote view
-      peerConnection.addEventListener('track', event => {
+      peerConnection.onaddstream = event => {
         console.log(
           '[MASTER] Received remote track from client: ' + remoteClientId,
         );
@@ -231,14 +231,26 @@ const App = () => {
         if (remoteView.srcObject) {
           return;
         }
-        setRemoteView(event.streams[0]);
-      });
+        //setRemoteView(event.streams[0]);
+        setRemoteView(event.stream);
+      };
+      // peerConnection.addEventListener('track', event => {
+      //   console.log(
+      //     '[MASTER] Received remote track from client: ' + remoteClientId,
+      //   );
+
+      //   if (remoteView.srcObject) {
+      //     return;
+      //   }
+      //   setRemoteView(event.streams[0]);
+      // });
 
       // If there's no video/audio, master.localStream will be null. So, we should skip adding the tracks from it.
       if (master.localStream) {
-        master.localStream
-          .getTracks()
-          .forEach(track => peerConnection.addTrack(track, master.localStream));
+        peerConnection.addStream(master.localStream);
+        // master.localStream
+        //   .getTracks()
+        //   .forEach(track => peerConnection.addTrack(track, master.localStream));
       }
       await peerConnection.setRemoteDescription(offer);
 
@@ -449,7 +461,6 @@ const App = () => {
       try {
         viewer.localStream = await mediaDevices.getUserMedia(constraints);
         setLocalView(viewer.localStream);
-        console.log(viewer.localStream._tracks);
         viewer.peerConnection.addStream(viewer.localStream);
         // viewer.localStream._tracks.forEach(track =>
         //   viewer.peerConnection.addStream(track, viewer.localStream),
@@ -517,14 +528,22 @@ const App = () => {
     });
 
     // As remote tracks are received, add them to the remote view
-    viewer.peerConnection.addEventListener('track', event => {
+    viewer.peerConnection.onaddstream = event => {
       console.log('[VIEWER] Received remote track');
-      // if (remoteView.srcObject) {
-      //   return;
-      // }
-      viewer.remoteStream = event.streams[0];
+      if (remoteView.srcObject) {
+        return;
+      }
+      viewer.remoteStream = event.stream;
       setRemoteView(viewer.remoteStream);
-    });
+    };
+    // viewer.peerConnection.addEventListener('track', event => {
+    //   console.log('[VIEWER] Received remote track');
+    //   // if (remoteView.srcObject) {
+    //   //   return;
+    //   // }
+    //   viewer.remoteStream = event.streams[0];
+    //   setRemoteView(viewer.remoteStream);
+    // });
 
     console.log('[VIEWER] Starting viewer connection');
     //setInfo([...info, '[VIEWER] Starting viewer connection']);
