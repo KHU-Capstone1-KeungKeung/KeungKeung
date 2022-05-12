@@ -37,8 +37,8 @@ const App = () => {
     peerConnectionByClientId: {},
     localStream: null,
     remoteStreams: [],
-    localView: null,
-    remoteView: null,
+    //localView: null,
+    //remoteView: null,
     peerConnectionStatsInterval: null,
   };
   const viewer = {
@@ -46,8 +46,8 @@ const App = () => {
     //peerConnectionByClientId: {},
     //localStream: null,
     //remoteStreams: [],
-    localView: null,
-    remoteView: null,
+    //localView: null,
+    //remoteView: null,
     //peerConnectionStatsInterval: null,
   };
 
@@ -137,7 +137,7 @@ const App = () => {
       .promise();
     const iceServers = [
       {
-        urls: `stun:stun.kinesisvideo.${'ap-northeast-2'}.amazonaws.com:443`,
+        urls: `stun:stun.kinesisvideo.${Config.REGION}.amazonaws.com:443`,
       },
     ];
     getIceServerConfigResponse.IceServerList.forEach(iceServer =>
@@ -448,13 +448,12 @@ const App = () => {
       // Otherwise, the browser will throw an error saying that either video or audio has to be enabled.
       try {
         viewer.localStream = await mediaDevices.getUserMedia(constraints);
-        viewer.localStream
-          .getTracks()
-          .forEach(track =>
-            viewer.peerConnection.addTrack(track, viewer.localStream),
-          );
-
         setLocalView(viewer.localStream);
+        console.log(viewer.localStream._tracks);
+        viewer.peerConnection.addStream(viewer.localStream);
+        // viewer.localStream._tracks.forEach(track =>
+        //   viewer.peerConnection.addStream(track, viewer.localStream),
+        // );
       } catch (e) {
         console.error('[VIEWER] Could not find webcam');
         return;
@@ -520,9 +519,9 @@ const App = () => {
     // As remote tracks are received, add them to the remote view
     viewer.peerConnection.addEventListener('track', event => {
       console.log('[VIEWER] Received remote track');
-      if (remoteView.srcObject) {
-        return;
-      }
+      // if (remoteView.srcObject) {
+      //   return;
+      // }
       viewer.remoteStream = event.streams[0];
       setRemoteView(viewer.remoteStream);
     });
