@@ -41,7 +41,6 @@ const App = () => {
     remoteView: null,
     peerConnectionStatsInterval: null,
   };
-
   const viewer = {
     //signalingClient: null,
     //peerConnectionByClientId: {},
@@ -156,6 +155,7 @@ const App = () => {
     };
 
     // const resolution = {width: {ideal: 1280}, height: {ideal: 720}};
+
     const constraints = {
       video: true,
       audio: true,
@@ -171,6 +171,7 @@ const App = () => {
       // );
       // localView.srcObject = master.localStream;
       // master.localView.srcObject = master.localStream;
+
       setLocalView(master.localStream);
     } catch (e) {
       console.error('[MASTER] Could not find webcam');
@@ -226,6 +227,7 @@ const App = () => {
         console.log(
           '[MASTER] Received remote track from client: ' + remoteClientId,
         );
+
         if (remoteView.srcObject) {
           return;
         }
@@ -306,6 +308,7 @@ const App = () => {
     master.remoteStreams.forEach(remoteStream =>
       remoteStream.getTracks().forEach(track => track.stop()),
     );
+
     master.remoteStreams = [];
 
     if (master.peerConnectionStatsInterval) {
@@ -342,10 +345,12 @@ const App = () => {
 
     // Get signaling channel ARN
     const describeSignalingChannelResponse = await kinesisVideoClient
+
       .describeSignalingChannel({
         ChannelName: Config.CHANNEL_NAME,
       })
       .promise();
+
     const channelARN = describeSignalingChannelResponse.ChannelInfo.ChannelARN;
     console.log('[VIEWER] Channel ARN: ', channelARN);
 
@@ -404,6 +409,7 @@ const App = () => {
       channelARN,
       channelEndpoint: endpointsByProtocol.WSS,
       clientId: getRandomClientId(),
+
       role: KVSWebRTC.Role.VIEWER,
       region: Config.REGION,
       credentials: {
@@ -420,6 +426,7 @@ const App = () => {
     };
 
     //const resolution = {width: {ideal: 1280}, height: {ideal: 720}};
+
     const constraints = {
       video: true,
       audio: true,
@@ -446,6 +453,7 @@ const App = () => {
           .forEach(track =>
             viewer.peerConnection.addTrack(track, viewer.localStream),
           );
+
         setLocalView(viewer.localStream);
       } catch (e) {
         console.error('[VIEWER] Could not find webcam');
@@ -550,7 +558,6 @@ const App = () => {
       clearInterval(viewer.peerConnectionStatsInterval);
       viewer.peerConnectionStatsInterval = null;
     }
-
     // if (viewer.localView) {
     //   viewer.localView.srcObject = null;
     // }
@@ -631,7 +638,6 @@ const App = () => {
             <Button title="Stop Master" onPress={stopMaster} />
             <Button title="Stop Viewer" onPress={stopViewer} />
           </View>
-
           <Text>{info}</Text>
 
           {/* <Master localView={localView.toURL()} /> */}
