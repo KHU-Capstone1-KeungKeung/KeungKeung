@@ -6,7 +6,7 @@
 ```shell
 npm run ios
 ```
-## 에러해결
+## iOS 에러해결
 ### `pod install` 관련 문제 발생시 체크리스트
 1. `.ruby-version`에 명시된 버전의 루비 설치
 
@@ -22,7 +22,9 @@ cd `brew --prefix`/Homebrew
 git fetch origin
 git reset --hard origin/master
 ```
-3. 에뮬레이터를 찾지 못할 시
+
+### iOS 빌드 문제 발생시 체크리스트
+1. 에뮬레이터를 찾지 못할 시
 
 발생에러: `error: SDK "iphoneos" cannot be located`
 참고링크: [error: unable to lookup item 'Path' in SDK 'iphoneos'](https://codechef.tistory.com/entry/react-native-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B4%88%EA%B8%B0-%EC%84%A4%EC%B9%98-%ED%9B%84-error-unable-to-lookup-item-Path-in-SDK-iphoneos-%EA%B0%84%EB%8B%A8-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95)
@@ -30,7 +32,7 @@ git reset --hard origin/master
 sudo xcode-select --switch /Applications/Xcode.app
 ```
 
-4. WebRTC 로딩 안됨.
+2. WebRTC 로딩 안됨.
 
 발생에러: `Library not loaded: @rpath/WebRTC.framework/WebRTC`
 참고링크: [Library not loaded: @rpath/WebRTC.framework/WebRTC](https://community.sendbird.com/t/library-not-loaded-rpath-webrtc-framework-webrtc/520)
@@ -41,7 +43,6 @@ brew install git-lfs
 pod deintegrate
 pod install
 ```
-
 
 ### 기타 오류 해결
  - [Xcode 로딩 안됨 해결](https://velog.io/@dlwogus0128/swift-1.-Xcode-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0)
