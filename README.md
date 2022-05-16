@@ -30,5 +30,18 @@ git reset --hard origin/master
 sudo xcode-select --switch /Applications/Xcode.app
 ```
 
+4. WebRTC 로딩 안됨.
+
+발생에러: `Library not loaded: @rpath/WebRTC.framework/WebRTC`
+참고링크: [Library not loaded: @rpath/WebRTC.framework/WebRTC](https://community.sendbird.com/t/library-not-loaded-rpath-webrtc-framework-webrtc/520)
+
+gif-lfs 설치 후, pod 재설치
+```shell
+brew install git-lfs
+pod deintegrate
+pod install
+```
 
 
+### 기타 오류 해결
+ - [Xcode 로딩 안됨 해결](https://velog.io/@dlwogus0128/swift-1.-Xcode-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0)
