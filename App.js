@@ -289,6 +289,7 @@ const App = () => {
     );
 
     master.signalingClient.on('close', () => {
+      setLocalView('');
       console.log('[MASTER] Disconnected from signaling channel');
     });
 
@@ -501,6 +502,7 @@ const App = () => {
     });
 
     viewer.signalingClient.on('close', () => {
+      setRemoteView('');
       console.log('[VIEWER] Disconnected from signaling channel');
     });
 
