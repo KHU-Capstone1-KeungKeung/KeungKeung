@@ -37,8 +37,8 @@ const App = () => {
     peerConnectionByClientId: {},
     localStream: null,
     remoteStreams: [],
-    //localView: null,
-    //remoteView: null,
+    localView: null,
+    remoteView: null,
     peerConnectionStatsInterval: null,
   };
   const viewer = {
@@ -328,22 +328,22 @@ const App = () => {
       master.peerConnectionStatsInterval = null;
     }
 
-    // if (master.localView) {
-    //   master.localView.srcObject = null;
-    //   setLocalView('');
-    // }
-    //
-    // if (master.remoteView) {
-    //   master.remoteView.srcObject = null;
-    // }
+    if (master.localView) {
+      master.localView.srcObject = null;
+      setLocalView('');
+    }
+
+    if (master.remoteView) {
+      master.remoteView.srcObject = null;
+    }
 
     setLocalView('');
     setRemoteView('');
   };
 
   const startViewer = async () => {
-    // viewer.localView = localView;
-    // viewer.remoteView = remoteView;
+    viewer.localView = localView;
+    viewer.remoteView = remoteView;
 
     // Create KVS client
     const kinesisVideoClient = new AWS.KinesisVideo({
@@ -576,13 +576,14 @@ const App = () => {
       clearInterval(viewer.peerConnectionStatsInterval);
       viewer.peerConnectionStatsInterval = null;
     }
-    // if (viewer.localView) {
-    //   viewer.localView.srcObject = null;
-    // }
-    //
-    // if (viewer.remoteView) {
-    //   viewer.remoteView.srcObject = null;
-    // }
+
+    if (viewer.localView) {
+      viewer.localView = null;
+    }
+
+    if (viewer.remoteView) {
+      viewer.remoteView = null;
+    }
 
     setLocalView('');
     setRemoteView('');
