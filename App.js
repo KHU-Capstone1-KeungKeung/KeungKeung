@@ -10,14 +10,12 @@ import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   Text,
-  useColorScheme,
   View,
   Button,
+  StyleSheet,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import * as AWS from 'aws-sdk';
 import * as KVSWebRTC from 'amazon-kinesis-video-streams-webrtc';
 import {SignalingClient} from 'amazon-kinesis-video-streams-webrtc';
@@ -26,12 +24,6 @@ import * as Config from './key';
 // import Master from './src/Master';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const master = {
     signalingClient: null,
     peerConnectionByClientId: {},
@@ -41,19 +33,10 @@ const App = () => {
     remoteView: null,
     peerConnectionStatsInterval: null,
   };
-  const viewer = {
-    //signalingClient: null,
-    //peerConnectionByClientId: {},
-    //localStream: null,
-    //remoteStreams: [],
-    //localView: null,
-    //remoteView: null,
-    //peerConnectionStatsInterval: null,
-  };
+  const viewer = {};
 
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
-  const [info, setInfo] = useState([]);
 
   const onStatsReport = report => {
     // TODO: Publish stats
@@ -64,9 +47,6 @@ const App = () => {
   };
 
   const startMaster = async () => {
-    // master.localView = localView;
-    // master.remoteView = remoteView;
-
     // Create KVS client : KVS 클라이언트 생성
     const kinesisVideoClient = new AWS.KinesisVideo({
       region: Config.REGION,
@@ -154,8 +134,6 @@ const App = () => {
       iceTransportPolicy: 'all',
     };
 
-    // const resolution = {width: {ideal: 1280}, height: {ideal: 720}};
-
     const constraints = {
       video: true,
       audio: true,
@@ -166,12 +144,6 @@ const App = () => {
     // Otherwise, the browser will throw an error saying that either video or audio has to be enabled.
     try {
       master.localStream = await mediaDevices.getUserMedia(constraints);
-      // master.localStream = await navigator.mediaDevices.getUserMedia(
-      //   constraints,
-      // );
-      // localView.srcObject = master.localStream;
-      // master.localView.srcObject = master.localStream;
-
       setLocalView(master.localStream);
     } catch (e) {
       console.error('[MASTER] Could not find webcam');
@@ -213,12 +185,6 @@ const App = () => {
             '[MASTER] All ICE candidates have been generated for client: ' +
               remoteClientId,
           );
-
-          // When trickle ICE is disabled, send the answer now that all the ICE candidates have ben generated.
-          // if (!formValues.useTrickleICE) {
-          //   console.log('[MASTER] Sending SDP answer to client: ' + remoteClientId);
-          //   master.signalingClient.sendSdpAnswer(peerConnection.localDescription, remoteClientId);
-          // }
         }
       });
 
@@ -231,26 +197,12 @@ const App = () => {
         if (remoteView.srcObject) {
           return;
         }
-        //setRemoteView(event.streams[0]);
         setRemoteView(event.stream);
       };
-      // peerConnection.addEventListener('track', event => {
-      //   console.log(
-      //     '[MASTER] Received remote track from client: ' + remoteClientId,
-      //   );
-
-      //   if (remoteView.srcObject) {
-      //     return;
-      //   }
-      //   setRemoteView(event.streams[0]);
-      // });
 
       // If there's no video/audio, master.localStream will be null. So, we should skip adding the tracks from it.
       if (master.localStream) {
         peerConnection.addStream(master.localStream);
-        // master.localStream
-        //   .getTracks()
-        //   .forEach(track => peerConnection.addTrack(track, master.localStream));
       }
       await peerConnection.setRemoteDescription(offer);
 
@@ -438,8 +390,6 @@ const App = () => {
       iceTransportPolicy: 'all',
     };
 
-    //const resolution = {width: {ideal: 1280}, height: {ideal: 720}};
-
     const constraints = {
       video: true,
       audio: true,
@@ -463,9 +413,6 @@ const App = () => {
         viewer.localStream = await mediaDevices.getUserMedia(constraints);
         setLocalView(viewer.localStream);
         viewer.peerConnection.addStream(viewer.localStream);
-        // viewer.localStream._tracks.forEach(track =>
-        //   viewer.peerConnection.addStream(track, viewer.localStream),
-        // );
       } catch (e) {
         console.error('[VIEWER] Could not find webcam');
         return;
@@ -520,12 +467,6 @@ const App = () => {
         viewer.signalingClient.sendIceCandidate(candidate);
       } else {
         console.log('[VIEWER] All ICE candidates have been generated');
-
-        // When trickle ICE is disabled, send the offer now that all the ICE candidates have ben generated.
-        // if (!formValues.useTrickleICE) {
-        //   console.log('[VIEWER] Sending SDP offer');
-        //   viewer.signalingClient.sendSdpOffer(viewer.peerConnection.localDescription);
-        // }
       }
     });
 
@@ -538,17 +479,8 @@ const App = () => {
       viewer.remoteStream = event.stream;
       setRemoteView(viewer.remoteStream);
     };
-    // viewer.peerConnection.addEventListener('track', event => {
-    //   console.log('[VIEWER] Received remote track');
-    //   // if (remoteView.srcObject) {
-    //   //   return;
-    //   // }
-    //   viewer.remoteStream = event.streams[0];
-    //   setRemoteView(viewer.remoteStream);
-    // });
 
     console.log('[VIEWER] Starting viewer connection');
-    //setInfo([...info, '[VIEWER] Starting viewer connection']);
     viewer.signalingClient.open();
   };
 
@@ -609,23 +541,13 @@ const App = () => {
       .promise();
     const channelARN = describeSignalingChannelResponse.ChannelInfo.ChannelARN;
 
-    setInfo([
-      ...info,
-      ['[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN],
-    ]);
     console.log('[CREATE_SIGNALING_CHANNEL] Channel ARN: ', channelARN);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
+    <SafeAreaView>
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
           <View>
             <Button title="Start Master" onPress={startMaster} />
             <Button title="Start Viewer" onPress={startViewer} />
@@ -659,8 +581,6 @@ const App = () => {
             <Button title="Stop Master" onPress={stopMaster} />
             <Button title="Stop Viewer" onPress={stopViewer} />
           </View>
-          <Text>{info}</Text>
-
           {/* <Master localView={localView.toURL()} /> */}
         </View>
       </ScrollView>
@@ -668,6 +588,6 @@ const App = () => {
   );
 };
 
-// const styles = StyleSheet.create({});
+const styles = StyleSheet.create({});
 
 export default App;
