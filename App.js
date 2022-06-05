@@ -7,19 +7,23 @@
  */
 
 import React, {useState} from 'react';
-import {SafeAreaView, ScrollView} from 'react-native';
-import Master from './src/Master.js';
-import Viewer from './src/Viewer.js';
-import CreateChannel from './src/CreateChannel';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import Header from './src/component/Header';
+import Monitoring from './src/page/Monitoring';
+import Master from './src/component/Master';
+import Viewer from './src/component/Viewer';
+import CreateChannel from './src/component/CreateChannel';
 
 const App = () => {
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.App}>
       <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <CreateChannel />
+        <Header title="모니터링" back={false} />
+        <Monitoring />
+        {/* <CreateChannel />
         <Master
           localView={localView}
           setLocalView={setLocalView}
@@ -31,10 +35,17 @@ const App = () => {
           setLocalView={setLocalView}
           remoteView={remoteView}
           setRemoteView={setRemoteView}
-        />
+        /> */}
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  App: {
+    width: '100%',
+    height: '100%',
+  },
+});
 
 export default App;

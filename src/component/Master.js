@@ -4,7 +4,7 @@ import * as AWS from 'aws-sdk';
 import * as KVSWebRTC from 'amazon-kinesis-video-streams-webrtc';
 import {SignalingClient} from 'amazon-kinesis-video-streams-webrtc';
 import {mediaDevices, RTCView, RTCPeerConnection} from 'react-native-webrtc';
-import * as Config from '../key.js';
+import * as Config from '../../key';
 
 const master = {
   signalingClient: null,
