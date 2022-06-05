@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, Button} from 'react-native';
+import {SafeAreaView, ScrollView, Text, Button, StyleSheet} from 'react-native';
 import * as AWS from 'aws-sdk';
 import * as KVSWebRTC from 'amazon-kinesis-video-streams-webrtc';
 import {SignalingClient} from 'amazon-kinesis-video-streams-webrtc';
@@ -288,5 +288,7 @@ const Master = ({localView, setLocalView, remoteView, setRemoteView}) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default Master;
