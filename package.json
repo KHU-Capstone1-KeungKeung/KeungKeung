@@ -13,10 +13,14 @@
     "@aws-sdk/client-kinesis": "^3.85.0",
     "@aws-sdk/client-kinesis-video": "^3.85.0",
     "@aws-sdk/client-kinesis-video-signaling": "^3.85.0",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.2",
     "amazon-kinesis-video-streams-webrtc": "^1.0.8",
     "aws-sdk": "^2.1130.0",
     "react": "17.0.2",
     "react-native": "0.68.1",
+    "react-native-safe-area-context": "^4.2.5",
+    "react-native-screens": "^3.13.1",
     "react-native-webrtc": "^1.100.0"
   },
   "devDependencies": {

@@ -8,36 +8,46 @@
 
 import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Header from './src/component/Header';
 import Monitoring from './src/page/Monitoring';
-import Master from './src/component/Master';
-import Viewer from './src/component/Viewer';
-import CreateChannel from './src/component/CreateChannel';
+import Video from './src/page/Video';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
 
   return (
-    <SafeAreaView style={styles.App}>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <Header title="모니터링" back={false} />
-        <Monitoring />
-        {/* <CreateChannel />
-        <Master
-          localView={localView}
-          setLocalView={setLocalView}
-          remoteView={remoteView}
-          setRemoteView={setRemoteView}
-        />
-        <Viewer
-          localView={localView}
-          setLocalView={setLocalView}
-          remoteView={remoteView}
-          setRemoteView={setRemoteView}
-        /> */}
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Monitoring"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Monitoring" component={Monitoring} />
+        <Stack.Screen name="Video" component={Video} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    // <SafeAreaView style={styles.App}>
+    //   <ScrollView contentInsetAdjustmentBehavior="automatic">
+    //     <Header title="모니터링" back={false} />
+    //     <Monitoring />
+    //     {/* <CreateChannel />
+    //     <Master
+    //       localView={localView}
+    //       setLocalView={setLocalView}
+    //       remoteView={remoteView}
+    //       setRemoteView={setRemoteView}
+    //     />
+    //     <Viewer
+    //       localView={localView}
+    //       setLocalView={setLocalView}
+    //       remoteView={remoteView}
+    //       setRemoteView={setRemoteView}
+    //     /> */}
+    //   </ScrollView>
+    // </SafeAreaView>
   );
 };
 
