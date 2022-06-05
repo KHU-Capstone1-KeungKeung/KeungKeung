@@ -7,13 +7,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Header from '../component/Header';
+import createSignalingChannel from '../component/CreateChannel';
 
 const Monitoring = () => {
   return (
     <SafeAreaView>
       <Header title="모니터링" back={false} />
       <View style={styles.Monitoring}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={createSignalingChannel}>
           <Text style={styles.btnText}>기기 추가 +</Text>
         </TouchableOpacity>
       </View>
