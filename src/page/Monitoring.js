@@ -9,14 +9,17 @@ import {
 import Header from '../component/Header';
 import createSignalingChannel from '../component/CreateChannel';
 
-const Monitoring = () => {
+const Monitoring = ({navigation}) => {
   return (
     <SafeAreaView>
       <Header title="모니터링" back={false} />
       <View style={styles.Monitoring}>
         <TouchableOpacity
           style={styles.button}
-          onPress={createSignalingChannel}>
+          onPress={() => {
+            createSignalingChannel();
+            navigation.navigate('Video');
+          }}>
           <Text style={styles.btnText}>기기 추가 +</Text>
         </TouchableOpacity>
       </View>

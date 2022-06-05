@@ -1,11 +1,17 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import icon from '../../img/back.png';
 
-const Header = ({title, back}) => {
+const Header = ({title, back, navigation}) => {
   return (
     <View style={styles.header}>
-      {back && <Image source={icon} style={styles.icon} />}
+      {back && (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.back}>
+          <Image source={icon} style={styles.icon} />
+        </TouchableOpacity>
+      )}
       <Text style={styles.title}>{title}</Text>
     </View>
   );
@@ -25,11 +31,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  back: {
+    position: 'absolute',
+    left: 20,
+  },
   icon: {
     width: 20,
     height: 20,
-    position: 'absolute',
-    left: 20,
   },
 });
 
