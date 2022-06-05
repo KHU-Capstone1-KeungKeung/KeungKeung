@@ -24,7 +24,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Monitoring"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {backgroundColor: '#fff'},
+        }}>
         <Stack.Screen name="Monitoring" component={Monitoring} />
         <Stack.Screen name="Video" component={Video} />
       </Stack.Navigator>
