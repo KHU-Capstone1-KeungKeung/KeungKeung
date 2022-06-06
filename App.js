@@ -6,20 +6,16 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Header from './src/component/Header';
 import Monitoring from './src/page/Monitoring';
 import Video from './src/page/Video';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [localView, setLocalView] = useState('');
-  const [remoteView, setRemoteView] = useState('');
-
   return (
     <NavigationContainer>
       <Stack.Navigator
