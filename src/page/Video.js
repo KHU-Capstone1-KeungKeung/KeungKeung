@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
 import Header from '../component/Header';
 import Master from '../component/Master';
 import Viewer from '../component/Viewer';
@@ -27,22 +20,8 @@ const Video = ({navigation, route}) => {
             <Text style={styles.guide}>아래의 역할을 선택해주세요</Text>
           </View>
         )}
-        {selected === 'cctv' && (
-          <Master
-            localView={localView}
-            setLocalView={setLocalView}
-            remoteView={remoteView}
-            setRemoteView={setRemoteView}
-          />
-        )}
-        {selected === 'viewer' && (
-          <Viewer
-            localView={localView}
-            setLocalView={setLocalView}
-            remoteView={remoteView}
-            setRemoteView={setRemoteView}
-          />
-        )}
+        {selected === 'cctv' && <Master localView={localView} />}
+        {selected === 'viewer' && <Viewer remoteView={remoteView} />}
         <View style={styles.select}>
           <Text style={styles.text}>역할 선택하기</Text>
           <View style={styles.selectView}>

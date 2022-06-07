@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {RTCView} from 'react-native-webrtc';
 
-const Viewer = ({localView, setLocalView, remoteView, setRemoteView}) => {
+const Viewer = ({remoteView}) => {
   return (
     <RTCView
       style={styles.viewer}

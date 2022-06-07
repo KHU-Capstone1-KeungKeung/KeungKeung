@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {RTCView} from 'react-native-webrtc';
 
-const Master = ({localView, setLocalView, remoteView, setRemoteView}) => {
+const Master = ({localView}) => {
   return (
     <RTCView
       style={styles.cctv}
