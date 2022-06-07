@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import Header from '../component/Header';
 import Master from '../component/Master';
@@ -12,7 +13,7 @@ import Viewer from '../component/Viewer';
 import {startMaster, stopMaster} from '../utils/master';
 import {startViewer, stopViewer} from '../utils/viewer';
 
-const Video = ({navigation}) => {
+const Video = ({navigation, route}) => {
   const [localView, setLocalView] = useState('');
   const [remoteView, setRemoteView] = useState('');
   const [selected, setSelected] = useState('none'); //none, cctv, viewer
@@ -45,8 +46,13 @@ const Video = ({navigation}) => {
         <View style={styles.select}>
           <Text style={styles.text}>역할 선택하기</Text>
           <View style={styles.selectView}>
-            <TouchableOpacity
-              style={[styles.button, styles.right]}
+            <Pressable
+              style={[
+                styles.button,
+                styles.right,
+                selected === 'cctv' && styles.active,
+              ]}
+              disabled={selected !== 'none'}
               onPress={() => {
                 startMaster(
                   localView,
@@ -56,10 +62,17 @@ const Video = ({navigation}) => {
                   setSelected,
                 );
               }}>
-              <Text style={styles.btnText}>CCTV</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
+              <Text
+                style={[
+                  styles.btnText,
+                  selected === 'cctv' && styles.activeText,
+                ]}>
+                CCTV
+              </Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, selected === 'viewer' && styles.active]}
+              disabled={selected !== 'none'}
               onPress={() => {
                 startViewer(
                   localView,
@@ -69,11 +82,18 @@ const Video = ({navigation}) => {
                   setSelected,
                 );
               }}>
-              <Text style={styles.btnText}>뷰어</Text>
-            </TouchableOpacity>
+              <Text
+                style={[
+                  styles.btnText,
+                  selected === 'viewer' && styles.activeText,
+                ]}>
+                뷰어
+              </Text>
+            </Pressable>
           </View>
-          <TouchableOpacity
-            style={styles.stop}
+          <Pressable
+            style={[styles.stop, selected !== 'none' && styles.active]}
+            disabled={selected === 'none'}
             onPress={() => {
               stopMaster(
                 localView,
@@ -89,9 +109,16 @@ const Video = ({navigation}) => {
                 setRemoteView,
                 setSelected,
               );
+              route.params.setOn(false);
             }}>
-            <Text style={styles.btnText}>종료하기</Text>
-          </TouchableOpacity>
+            <Text
+              style={[
+                styles.btnText,
+                selected !== 'none' && styles.activeText,
+              ]}>
+              종료하기
+            </Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
@@ -158,6 +185,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     width: '50%',
     marginTop: 50,
+  },
+  active: {
+    backgroundColor: '#F9C076',
+    borderWidth: 0,
+  },
+  activeText: {
+    color: 'white',
   },
 });
 
