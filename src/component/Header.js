@@ -7,7 +7,7 @@ const Header = ({title, back, navigation}) => {
     <View style={styles.header}>
       {back && (
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Monitoring')}
           style={styles.back}>
           <Image source={icon} style={styles.icon} />
         </TouchableOpacity>
