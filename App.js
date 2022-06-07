@@ -6,12 +6,14 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Monitoring from './src/page/Monitoring';
 import Video from './src/page/Video';
+import Loading from './src/page/Loading';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,11 +21,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Monitoring"
+        initialRouteName="Loading"
         screenOptions={{
           headerShown: false,
           contentStyle: {backgroundColor: '#fff'},
         }}>
+        <Stack.Screen name="Loading" component={Loading} />
         <Stack.Screen name="Monitoring" component={Monitoring} />
         <Stack.Screen name="Video" component={Video} />
       </Stack.Navigator>
