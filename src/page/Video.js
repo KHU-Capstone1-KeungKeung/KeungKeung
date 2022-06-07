@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, SafeAreaView, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import Header from '../component/Header';
 import Master from '../component/Master';
 import Viewer from '../component/Viewer';
@@ -20,8 +27,18 @@ const Video = ({navigation, route}) => {
             <Text style={styles.guide}>아래의 역할을 선택해주세요</Text>
           </View>
         )}
-        {selected === 'cctv' && <Master localView={localView} />}
-        {selected === 'viewer' && <Viewer remoteView={remoteView} />}
+        {selected === 'cctv' &&
+          (localView === '' ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Master localView={localView} />
+          ))}
+        {selected === 'viewer' &&
+          (localView === '' ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Viewer remoteView={remoteView} />
+          ))}
         <View style={styles.select}>
           <Text style={styles.text}>역할 선택하기</Text>
           <View style={styles.selectView}>
@@ -40,6 +57,7 @@ const Video = ({navigation, route}) => {
                   setRemoteView,
                   setSelected,
                 );
+                setSelected('cctv');
               }}>
               <Text
                 style={[
@@ -60,6 +78,7 @@ const Video = ({navigation, route}) => {
                   setRemoteView,
                   setSelected,
                 );
+                setSelected('viewer');
               }}>
               <Text
                 style={[
@@ -88,6 +107,7 @@ const Video = ({navigation, route}) => {
                 setRemoteView,
                 setSelected,
               );
+              setSelected('none');
               route.params.setOn(false);
             }}>
             <Text
