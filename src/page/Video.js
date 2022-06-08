@@ -20,8 +20,8 @@ const Video = ({navigation, route}) => {
 
   useEffect(() => {
     if (route.params.data) {
-      setRemoteView(route.params.data.localView);
-      setSelected(route.params.data.remoteView);
+      setLocalView(route.params.data.localView);
+      setRemoteView(route.params.data.remoteView);
       setSelected(route.params.data.selected);
     }
   }, []);
