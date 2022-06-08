@@ -124,7 +124,11 @@ export const startViewer = async (
 
   // Poll for connection stats
   viewer.peerConnectionStatsInterval = setInterval(
-    () => viewer.peerConnection.getStats().then(onStatsReport),
+    () => {
+      if (viewer.peerConnection) {
+        viewer.peerConnection.getStats().then(onStatsReport)
+      }
+    },
     1000,
   );
 

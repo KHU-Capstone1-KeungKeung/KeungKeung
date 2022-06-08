@@ -142,7 +142,11 @@ export const startMaster = async (
     // Poll for connection stats
     if (!master.peerConnectionStatsInterval) {
       master.peerConnectionStatsInterval = setInterval(
-        () => peerConnection.getStats().then(onStatsReport),
+        () => {
+          if (peerConnection.getStats()) {
+            peerConnection.getStats().then(onStatsReport)
+          }
+        },
         1000,
       );
     }
