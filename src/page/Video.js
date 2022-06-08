@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -18,9 +18,17 @@ const Video = ({navigation, route}) => {
   const [remoteView, setRemoteView] = useState('');
   const [selected, setSelected] = useState('none'); //none, cctv, viewer
 
+  useEffect(() => {
+    if (route.params.data) {
+      setRemoteView(route.params.data.localView);
+      setSelected(route.params.data.remoteView);
+      setSelected(route.params.data.selected);
+    }
+  }, []);
+
   return (
     <SafeAreaView style={styles.Video}>
-      <Header title="영상 보기" back navigation={navigation} />
+      <Header title="영상 보기" back navigation={navigation} data={{localView, remoteView, selected}}/>
       <View style={styles.main}>
         {selected === 'none' && (
           <View style={styles.video}>

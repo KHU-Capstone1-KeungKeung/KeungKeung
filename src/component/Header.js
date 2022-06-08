@@ -2,12 +2,12 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import icon from '../../img/back.png';
 
-const Header = ({title, back, navigation}) => {
+const Header = ({title, back, navigation, data}) => {
   return (
     <View style={styles.header}>
       {back && (
         <TouchableOpacity
-          onPress={() => navigation.navigate('Monitoring')}
+          onPress={() => navigation.navigate({name: 'Monitoring', params: {data}})}
           style={styles.back}>
           <Image source={icon} style={styles.icon} />
         </TouchableOpacity>

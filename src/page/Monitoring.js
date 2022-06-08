@@ -9,8 +9,9 @@ import {
 import Header from '../component/Header';
 import createSignalingChannel from '../component/CreateChannel';
 
-const Monitoring = ({navigation}) => {
+const Monitoring = ({navigation, route}) => {
   const [on, setOn] = useState(false);
+
   return (
     <SafeAreaView>
       <Header title="모니터링" back={false} />
@@ -19,7 +20,7 @@ const Monitoring = ({navigation}) => {
           <TouchableOpacity
             style={styles.onButton}
             onPress={() => {
-              navigation.navigate({name: 'Video', params: {setOn}});
+              navigation.navigate({name: 'Video', params: {setOn, data: route.params.data}});
             }}>
             <Text style={styles.onText}>CCTV 작동 중</Text>
           </TouchableOpacity>
@@ -29,7 +30,7 @@ const Monitoring = ({navigation}) => {
             onPress={() => {
               createSignalingChannel();
               setOn(true);
-              navigation.navigate({name: 'Video', params: {setOn}});
+              navigation.navigate({name: 'Video', params: {setOn, data: null}});
             }}>
             <Text style={styles.btnText}>기기 추가 +</Text>
           </TouchableOpacity>
