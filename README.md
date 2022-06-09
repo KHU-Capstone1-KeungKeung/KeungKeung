@@ -32,6 +32,8 @@
 ## 실행화면
 > CCTV용 디바이스와 Viewer용 디바이스가 서로 연결되면 Viewer용 디바이스에서 실시간 영상을 시청할 수 있으며 마이크로 실시간 소통을 진행할 수 있다.
 
+**로딩화면 - 메인화면(기기 추가 전) - cctv - viewer - 메인화면(cctv 작동중)** 순서입니다.
+
 ### 안드로이드
 <img src="./img/로딩페이지.png" width="200" height="400"/> <img src="./img/모니터링.png" width="200" height="400"/>
 
@@ -39,7 +41,13 @@
 
 
 ### iOS
-추가예정입니다.
+![image](https://user-images.githubusercontent.com/52497708/172744532-f92407cc-1f23-464b-a8ed-6049d868446e.png)
+![image](https://user-images.githubusercontent.com/52497708/172744598-ac97f04e-838e-4b3e-9b9d-2c0019a61a25.png)
+
+![image](https://user-images.githubusercontent.com/52497708/172744608-1e3501de-bcae-424f-a742-009d43036d57.png)
+![image](https://user-images.githubusercontent.com/52497708/172744614-3f00807d-67f9-43ee-9380-262a8b36b090.png)
+![image](https://user-images.githubusercontent.com/52497708/172744618-1d7e3902-028f-4d74-b28f-02902c4fdb27.png)
+
 
 <br/>
 
